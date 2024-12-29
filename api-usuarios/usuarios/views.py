@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from .serializers import UserSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()  # Obtén todos los usuarios
-    serializer_class = UserSerializer  # Usa el serializer para convertir el User a JSON
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
     @action(detail=False, methods=['get'])
     def get_all_users(self, request):

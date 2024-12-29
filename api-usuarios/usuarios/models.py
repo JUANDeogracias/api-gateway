@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from rest_framework import serializers
 
-# 'id', 'username', 'email', 'first_name', 'last_name'
 class Usuario(models.Model):
     username = models.CharField(blank=False, max_length=150)
     email = models.EmailField(blank=False, unique=True)
