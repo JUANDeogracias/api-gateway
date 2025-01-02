@@ -4,9 +4,10 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from .models import Usuario
-from .serializers import UserSerializer
+from usuarios.Models.UsuarioModel import Usuario
+from usuarios.serializers import UserSerializer
 
+# Modelo view con los endpoint de el Usuario definidos
 class UserViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer = UserSerializer
@@ -29,13 +30,11 @@ class UserViewSet(viewsets.ModelViewSet):
         # .strip() permite eliminar los espacios
         content = {
             'nombre': request.data.get('nombre', '').strip(),
-            'email': request.data.get('email', '').strip(),
             'primer_apellido': request.data.get('primer_apellido', '').strip(),
-            'segundo_apellido': request.data.get('segundo_apellido', '').strip(),
         }
 
         # Verifica que los campos requeridos estén llenos
-        if not content['nombre'] or not content['email']:
+        if not content['nombre'] or not content['primer_apellido']:
             return Response(
                 {'error': 'Los campos "nombre" y "email" son obligatorios.'},
                 status=status.HTTP_400_BAD_REQUEST
@@ -45,9 +44,7 @@ class UserViewSet(viewsets.ModelViewSet):
             # Crea un nuevo usuario
             usuario = Usuario.objects.create(
                 nombre=content['nombre'],
-                email=content['email'],
                 primer_apellido=content.get('primer_apellido', None),
-                segundo_apellido=content.get('segundo_apellido', None),
             )
             return Response(
                 {'exitoso': f'Usuario "{usuario.nombre}" creado correctamente.'},
